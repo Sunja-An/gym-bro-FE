@@ -2,7 +2,8 @@
 
 import React, { useRef, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { Camera, Send, StopCircle } from 'lucide-react';
+import Link from 'next/link';
+import { Camera, Send, StopCircle, ArrowLeft } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useFeedbackStore } from '@/store/useFeedbackStore';
 import axios from 'axios';
@@ -18,22 +19,27 @@ export default function ScanPage() {
   const [isRecording, setIsRecording] = useState(false);
   const [secondsLeft, setSecondsLeft] = useState(10);
   const [videoBlob, setVideoBlob] = useState<Blob | null>(null);
+  const [cameraError, setCameraError] = useState<string | null>(null);
 
   useEffect(() => {
     // Request Camera on mount
     const initCamera = async () => {
       try {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          throw new Error("Camera API not supported in this browser.");
+        }
         const stream = await navigator.mediaDevices.getUserMedia({
           video: true,
           audio: false,
         });
         setStream(stream);
+        setCameraError(null);
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error accessing camera:', error);
-        // Fallback or permission denied state can be handled here
+        setCameraError(error.name === "NotFoundError" ? "No camera device found." : "Please allow camera access.");
       }
     };
     initCamera();
@@ -86,48 +92,50 @@ export default function ScanPage() {
     return () => clearTimeout(timer);
   }, [isRecording, secondsLeft]);
 
+  const setVideoUrl = useFeedbackStore((state) => state.setVideoUrl);
+
   const handleSendVideo = async () => {
     if (!videoBlob) return;
     
-    // We navigate to analyzing right away and do the processing in the background
-    // Or we navigate to analyzing and let it handle the upload or wait.
-    // Given the requirements, "/scan/analyzing" is the page while waiting for the API.
+    // Convert Blob to URL and store in global state to let analyzing page process it
+    const url = URL.createObjectURL(videoBlob);
+    setVideoUrl(url);
     
     router.push('/scan/analyzing');
-    
-    try {
-      // Here you would do:
-      // const formData = new FormData();
-      // formData.append('video', videoBlob, 'scan.webm');
-      // await axios.post('/api/v1/scan', formData);
-      
-      // Since there is no real backend, we simulate the request directly in analyzing page.
-      // But passing the Blob via state can be tricky. 
-      // For this hackathon scope, the actual form data upload happens here, 
-      // but to decouple safely and keep the analyzing spinner going, 
-      // we'll simulate the mock API call in the Analyzing page layout or next block.
-    } catch (e) {
-      console.error(e);
-    }
   };
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center p-6">
-      <div className="max-w-3xl w-full flex flex-col items-center gap-6">
+      <div className="max-w-3xl w-full flex flex-col items-center gap-6 relative">
+        <div className="w-full flex justify-start">
+          <Link href="/" className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors bg-secondary/50 px-4 py-2 rounded-full backdrop-blur-sm hover:bg-secondary">
+            <ArrowLeft size={20} />
+            <span className="font-medium">Home</span>
+          </Link>
+        </div>
+
         <div className="text-center space-y-2">
           <h1 className="text-3xl md:text-5xl font-bold tracking-tight">{t('title')}</h1>
           <p className="text-muted-foreground text-lg">{t('subtitle')}</p>
         </div>
 
-        <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            muted
-            className="w-full h-full object-cover"
-          />
-          {isRecording && (
+        <div className="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10 flex items-center justify-center">
+          {cameraError ? (
+            <div className="text-center text-red-400 p-6 flex flex-col items-center gap-2">
+              <Camera size={48} className="opacity-50" />
+              <p className="text-lg font-medium">{cameraError}</p>
+              <p className="text-sm text-gray-400">Please check your camera connection or permissions.</p>
+            </div>
+          ) : (
+            <video
+              ref={videoRef}
+              autoPlay
+              playsInline
+              muted
+              className="w-full h-full object-cover"
+            />
+          )}
+          {isRecording && !cameraError && (
             <div className="absolute top-4 right-4 flex items-center gap-2 bg-red-500/90 text-white px-3 py-1.5 rounded-full animate-pulse font-medium">
               <div className="w-2 h-2 rounded-full bg-white" />
               {t('recording', { seconds: secondsLeft })}

@@ -1,0 +1,20 @@
+{
+  "title": "My Page",
+  "profile": {
+    "level": "Level",
+    "total_scans": "Total Scans"
+  },
+  "activity": {
+    "title": "Recent Activity",
+    "no_activity": "No recent activity",
+    "score": "Score",
+    "perfect_posture": "Perfect Posture",
+    "good_posture": "Good Posture",
+    "needs_improvement": "Needs Improvement"
+  },
+  "settings": {
+    "title": "Settings",
+    "theme": "Theme",
+    "language": "Language"
+  }
+}

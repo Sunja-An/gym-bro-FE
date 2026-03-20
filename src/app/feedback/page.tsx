@@ -4,6 +4,7 @@ import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { useFeedbackStore } from '@/store/useFeedbackStore';
+import { useToastStore } from '@/store/useToastStore';
 import { Save, Trash2, ArrowLeft, CheckCircle2 } from 'lucide-react';
 import gsap from 'gsap';
 import Link from 'next/link';
@@ -35,9 +36,9 @@ export default function FeedbackPage() {
 
   const handleSave = () => {
     // Implement save logic (e.g. POST to backend)
-    // clearFeedbackData();
-    // router.push('/mypage'); // e.g., redirect to My Page
-    alert('Saved successfully!');
+    const { addToast } = useToastStore.getState();
+    addToast({ message: "저장하였습니다!", type: "success" });
+    router.push('/mypage'); 
   };
 
   const handleDiscard = () => {

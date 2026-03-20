@@ -12,12 +12,16 @@ export interface FeedbackData {
 
 interface FeedbackStore {
   feedbackData: FeedbackData | null;
+  videoUrl: string | null;
   setFeedbackData: (data: FeedbackData) => void;
+  setVideoUrl: (url: string | null) => void;
   clearFeedbackData: () => void;
 }
 
 export const useFeedbackStore = create<FeedbackStore>((set) => ({
   feedbackData: null,
+  videoUrl: null,
   setFeedbackData: (data) => set({ feedbackData: data }),
-  clearFeedbackData: () => set({ feedbackData: null }),
+  setVideoUrl: (url) => set({ videoUrl: url }),
+  clearFeedbackData: () => set({ feedbackData: null, videoUrl: null }),
 }));

@@ -4,6 +4,7 @@ import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { gsap } from "gsap";
 import { ArrowRight, Play, Activity } from "lucide-react";
+import Link from "next/link";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
 export default function LandingPage() {
@@ -90,16 +91,16 @@ export default function LandingPage() {
 
         {/* Call to Actions (CTA) */}
         <div className="hero-element flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-          <button className="group relative flex h-14 w-full sm:w-64 items-center justify-center gap-2 overflow-hidden rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-all hover:bg-blue-500 shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] dark:hover:shadow-[0_0_40px_8px_rgba(59,130,246,0.3)]">
+          <Link href="/scan" className="group relative flex h-14 w-full sm:w-64 items-center justify-center gap-2 overflow-hidden rounded-xl bg-blue-600 px-6 py-3 font-semibold text-white transition-all hover:bg-blue-500 shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] hover:shadow-[0_6px_20px_rgba(37,99,235,0.23)] dark:hover:shadow-[0_0_40px_8px_rgba(59,130,246,0.3)]">
             <span className="relative z-10 flex items-center gap-2">
               {t("cta_primary")}
               <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
             </span>
-          </button>
+          </Link>
           
-          <button className="flex h-14 w-full sm:w-64 items-center justify-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-gray-900/50 px-6 py-3 font-semibold text-gray-700 dark:text-gray-300 backdrop-blur-sm transition-all hover:border-gray-400 hover:bg-gray-50 dark:hover:border-gray-500 dark:hover:bg-gray-800 dark:hover:text-white shadow-sm">
-            {t("cta_secondary")}
-          </button>
+          <Link href="/mypage" className="flex h-14 w-full sm:w-64 items-center justify-center gap-2 rounded-xl border border-gray-300 dark:border-gray-700 bg-white/50 dark:bg-gray-900/50 px-6 py-3 font-semibold text-gray-700 dark:text-gray-300 backdrop-blur-sm transition-all hover:border-gray-400 hover:bg-gray-50 dark:hover:border-gray-500 dark:hover:bg-gray-800 dark:hover:text-white shadow-sm">
+            My Page
+          </Link>
         </div>
       </div>
     </main>
