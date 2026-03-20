@@ -1,0 +1,15 @@
+{
+  "title": "Analyze Your Posture",
+  "subtitle": "Turn on your camera and scan your posture for 10 seconds.",
+  "start_scan": "Start Scanning",
+  "recording": "Recording... {{seconds}}s left",
+  "send_video": "Send for Analysis",
+  "analyzing_title": "Analyzing...",
+  "analyzing_subtitle": "GYM BRO AI is carefully analyzing your posture capture.",
+  "feedback_title": "Posture Feedback Results",
+  "feedback_score": "Overall Score: {{score}} points",
+  "feedback_overall": "Overall Feedback",
+  "feedback_details": "Detailed Analysis & Corrections",
+  "action_save": "Save",
+  "action_discard": "Discard"
+}

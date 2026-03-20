@@ -1,0 +1,15 @@
+{
+  "title": "운동 자세 스캔",
+  "subtitle": "카메라를 켜고 10초 동안 자세를 스캔하세요.",
+  "start_scan": "스캔 시작",
+  "recording": "녹화 중... {{seconds}}초 남음",
+  "send_video": "영상 분석 보내기",
+  "analyzing_title": "분석 중입니다...",
+  "analyzing_subtitle": "GYM BRO AI가 사용자의 자세를 꼼꼼하게 분석하고 있습니다.",
+  "feedback_title": "자세 분석 결과",
+  "feedback_score": "종합 점수: {{score}}점",
+  "feedback_overall": "종합 피드백",
+  "feedback_details": "상세 분석 및 교정 내용",
+  "action_save": "저장",
+  "action_discard": "버리기"
+}
